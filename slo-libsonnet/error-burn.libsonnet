@@ -4,7 +4,7 @@ local errors = import 'errors.libsonnet';
   errorburn(param):: {
     local slo = {
       alertName: 'ErrorBudgetBurn',
-      alertMessage: 'High error budget burn for %s (current value: {{ $value }})' % [std.strReplace(std.join(',', self.selectors), '"', '')],
+      alertMessage: 'High error budget burn for %s (current value: {{ $value }})' % [std.strReplace(std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], self.selectors)), '"', '')],
       alertLabels: {},
       alertAnnotations: {},
       metric: error 'must set metric for error burn',
@@ -34,8 +34,8 @@ local errors = import 'errors.libsonnet';
           sum(rate(%(metric)s{%(selectors)s}[%(rate)s]))
         ||| % {
           metric: slo.metric,
-          selectors: std.join(',', slo.selectors),
-          errorSelectors: std.join(',', slo.selectors + slo.errorSelectors),
+          selectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors)),
+          errorSelectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors + slo.errorSelectors)),
           rate: rate,
         },
         record: slo.recordingrule % rate,
@@ -61,7 +61,7 @@ local errors = import 'errors.libsonnet';
           ||| % {
             recordingruleShort: slo.recordingrule % w.short,
             recordingruleLong: slo.recordingrule % w.long,
-            selectors: std.join(',', slo.selectors),
+            selectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [] else [x], slo.selectors)),
             target: slo.target,
             factor: w.factor,
           },

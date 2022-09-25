@@ -43,7 +43,7 @@ local util = import '_util.libsonnet';
             )
             /
             sum(rate(%(metric)s_count{%(selectors)s}[%(rate)s]))
-          ||| % { selectors: std.join(',', slo.selectors), codeSelector: slo.codeSelector, metric: slo.metric, rate: rate },
+          ||| % { selectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors)), codeSelector: slo.codeSelector, metric: slo.metric, rate: rate },
           labels: labels,
         }
         for rate in std.set([  // Get the unique array of short and long window rates

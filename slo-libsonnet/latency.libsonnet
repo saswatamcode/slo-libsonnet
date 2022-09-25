@@ -21,7 +21,7 @@ local util = import '_util.libsonnet';
       ||| % [
         quantile,
         slo.metric,
-        slo.selectors,
+        std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors),
       ],
       record: '%s:histogram_quantile' % slo.metric,
 

@@ -24,8 +24,8 @@ local util = import '_util.libsonnet';
           > %(severity)f
         ||| % {
           metric: slo.metric,
-          selectors: std.join(',', slo.selectors),
-          errorSelectors: std.join(',', slo.selectors + slo.errorSelectors),
+          selectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors)),
+          errorSelectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors + slo.errorSelectors)),
           rate: slo.rate,
           severity: severity.percent,
         },

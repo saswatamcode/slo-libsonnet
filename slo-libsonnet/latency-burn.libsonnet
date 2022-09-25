@@ -19,7 +19,7 @@ local util = import '_util.libsonnet';
     local rates = ['5m', '30m', '1h', '2h', '6h', '1d', '3d'],
 
     local rulesSelectors = slo.selectors + ['latency="' + slo.latencyTarget + '"'],
-    local alertSelectors = std.strReplace(std.join(',', rulesSelectors), '=~', '='),
+    local alertSelectors = std.strReplace(std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [] else [x], rulesSelectors)), '=~', '='),
 
     local latencyRules = [
       {
@@ -35,7 +35,7 @@ local util = import '_util.libsonnet';
           )
         ||| % {
           bucketMetric: slo.metric + '_bucket',
-          selectors: std.join(',', slo.selectors),
+          selectors: std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], slo.selectors)),
           latencyTarget: slo.latencyTarget,
           notErrorSelector: slo.notErrorSelector,
           rate: rate,
