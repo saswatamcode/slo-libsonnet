@@ -84,7 +84,7 @@ local util = import '_util.libsonnet';
           severity: 'critical',
         } + slo.alertLabels,
         annotations: {
-          message: 'High requests latency budget burn for %s (current value: {{ $value }})' % [std.strReplace(std.join(',', rulesSelectors), '"', '')],
+          message: 'High requests latency budget burn for %s (current value: {{ $value }})' % [std.strReplace(std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], rulesSelectors)), '"', '')],
         } + slo.alertAnnotations,
       },
       {
@@ -119,7 +119,7 @@ local util = import '_util.libsonnet';
           severity: 'warning',
         } + slo.alertLabels,
         annotations: {
-          message: 'High requests latency budget burn for %s (current value: {{ $value }})' % [std.strReplace(std.join(',', rulesSelectors), '"', '')],
+          message: 'High requests latency budget burn for %s (current value: {{ $value }})' % [std.strReplace(std.join(',', std.flatMap(function(x) if std.startsWith(x, 'ONLY_IN_BASE_') then [std.strReplace(x, 'ONLY_IN_BASE_', '')] else [x], rulesSelectors)), '"', '')],
         } + slo.alertAnnotations,
       },
     ],
