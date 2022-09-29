@@ -1,5 +1,5 @@
 alerts:
-- alert: ErrorBudgetBurn
+- alert: ErrorBudgetBurn5mand1h
   annotations:
     message: 'High error budget burn for namespace=default,job=fooapp (current value: {{ $value }})'
   expr: |
@@ -11,7 +11,7 @@ alerts:
     job: fooapp
     namespace: default
     severity: critical
-- alert: ErrorBudgetBurn
+- alert: ErrorBudgetBurn30mand6h
   annotations:
     message: 'High error budget burn for namespace=default,job=fooapp (current value: {{ $value }})'
   expr: |
@@ -23,7 +23,7 @@ alerts:
     job: fooapp
     namespace: default
     severity: critical
-- alert: ErrorBudgetBurn
+- alert: ErrorBudgetBurn2hand1d
   annotations:
     message: 'High error budget burn for namespace=default,job=fooapp (current value: {{ $value }})'
   expr: |
@@ -35,7 +35,7 @@ alerts:
     job: fooapp
     namespace: default
     severity: warning
-- alert: ErrorBudgetBurn
+- alert: ErrorBudgetBurn6hand3d
   annotations:
     message: 'High error budget burn for namespace=default,job=fooapp (current value: {{ $value }})'
   expr: |

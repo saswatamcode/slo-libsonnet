@@ -51,7 +51,7 @@ local util = import '_util.libsonnet';
 
     local multiBurnRate30d = [
       {
-        alert: slo.alertName,
+        alert: slo.alertName + rates[2],
         // Check how many procent are violating the SLO.
         // Send an alert only when this procent is above the burn rate.
         expr: |||
@@ -88,7 +88,7 @@ local util = import '_util.libsonnet';
         } + slo.alertAnnotations,
       },
       {
-        alert: slo.alertName,
+        alert: slo.alertName + rates[6],
         expr: |||
           (
             %s{%s} > (3*%f)

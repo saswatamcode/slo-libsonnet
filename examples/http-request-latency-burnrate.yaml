@@ -1,5 +1,5 @@
 alerts:
-- alert: LatencyBudgetBurn
+- alert: LatencyBudgetBurn1h
   annotations:
     message: 'High requests latency budget burn for namespace=default,job=fooapp,latency=1 (current value: {{ $value }})'
   expr: |
@@ -19,7 +19,7 @@ alerts:
     latency: "1"
     namespace: default
     severity: critical
-- alert: LatencyBudgetBurn
+- alert: LatencyBudgetBurn3d
   annotations:
     message: 'High requests latency budget burn for namespace=default,job=fooapp,latency=1 (current value: {{ $value }})'
   expr: |

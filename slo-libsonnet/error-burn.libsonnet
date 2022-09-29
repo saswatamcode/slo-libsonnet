@@ -53,7 +53,7 @@ local errors = import 'errors.libsonnet';
     alerts:
       [
         {
-          alert: slo.alertName,
+          alert: slo.alertName + w.short + 'and' + w.long,
           expr: |||
             sum(%(recordingruleShort)s{%(selectors)s}) > (%(factor).2f * (1-%(target).5f))
             and
